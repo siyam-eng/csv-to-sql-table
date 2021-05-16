@@ -62,11 +62,62 @@ def generate_assetid(category_shortname, db_session, Model):
 
 
 # Validation function
-def validate()
+def validate(row, **kwargs):
+    asset = {}
+
+    for field in FIELD_PROPERTIES:
+        try:
+            # field properties
+            csvFieldName = field['fieldName']
+            dbFieldName = field['fieldColumnName']
+            fieldMandatory = field['fieldMandatory']
+            fieldType = field['fieldType']
+            foreignTable = field['foreignTable']
+
+            # csv field value
+            field_value = row[csvFieldName]
+
+            # check if required value is null
+            if (bool(fieldMandatory) and field_value) or not bool(fieldMandatory):
+                asset[dbFieldName] = field_value
+
+                # validate enum field
+                if fieldType == 'ENUM':
+                    enum = kwargs[foreignTable]
+                    if field_value in enum:
+                        asset[dbFieldName] = field_value
+                    # enum validation fails
+                    else:
+                        asset[dbFieldName] = field_value
+                        asset['Error'] = f"This field should have any of these values:- {enum}"
+
+                # validate select field
+                if fieldType == 'SELECT':
+                    mapping = kwargs[foreignTable]
+                    try:
+                        asset[dbFieldName] = mapping[field_value]
+                    # mapping not present
+                    except KeyError as key:
+                        asset[dbFieldName] = field_value
+                        asset['Error'] = f"The mapping for {key} is not provided"
+
+            # required field not present
+            else:
+                asset[dbFieldName] = field_value
+                asset['Error'] = f"Required field '{csvFieldName}' not present"
+        except KeyError as err:
+            print(err)
+            
+    print('error', asset) if asset.get('Error') else print(asset)
+
+
+
 
 
 
 start = time.perf_counter()
+row = {'custom field 1': 'hello world', 'Description': 'This is the description', 'Status': 'ACTIVE', 'Category': 'LAPTOP'}
+validate(row, enum=['ACTIVE', 'INACTIVE'], assetCategories={'LAPTOP': 1})
 
 end = time.perf_counter()
 
