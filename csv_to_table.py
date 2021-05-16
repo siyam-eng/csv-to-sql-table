@@ -9,7 +9,7 @@ from sqlalchemy.sql.expression import insert
 from credentials import username, password
 from datetime import datetime
 from models import Asset
-
+import time
 
 username = username
 password = password
@@ -93,87 +93,96 @@ def insert_asset(session, Model, **kwargs):
 
 
 # Open the file to work with
-with open("asset.csv", "r") as f:
-    csv_reader = csv.DictReader(f)
+def main():
+    with open("asset.csv", "r") as f:
+        csv_reader = csv.DictReader(f)
 
-    with open('error.csv', 'w') as f:
-        field_names = ['Name','Asset ID','Description','Location','Tags','Status','Category','Metadata','Field1','Field2','Field3','Comments ']
-        csv_writer = csv.DictWriter(f, field_names)
-        csv_writer.writeheader()
+        with open('error.csv', 'w') as f:
+            field_names = ['Name','Asset ID','Description','Location','Tags','Status','Category','Metadata','Field1','Field2','Field3','Comments', None]
+            csv_writer = csv.DictWriter(f, field_names)
+            csv_writer.writeheader()
 
-        for row in csv_reader:
+            for row in csv_reader:
 
-            # Retrieve the data
-            assetId = row["Asset ID"]  # not nullable
-            assetName = row["Name"]   # not nullable
-            assetDescription = row["Description"]
-            assetLocation = row['Location']
-            assetTags = row["Tags"]
-            assetStatus = row["Status"]  # not nullable
-            assetCategory_id = row["Category"]  # not nullable
-            assetMetadata = row["Metadata"]
-            userField1 = row["Field1"]
-            userField2 = row["Field2"]
-            userField3 = row["Field3"]
+                # Retrieve the data
+                assetId = row["Asset ID"]  # not nullable
+                assetName = row["Name"]   # not nullable
+                assetDescription = row["Description"]
+                assetLocation = row['Location']
+                assetTags = row["Tags"]
+                assetStatus = row["Status"]  # not nullable
+                assetCategory_id = row["Category"]  # not nullable
+                assetMetadata = row["Metadata"]
+                userField1 = row["Field1"]
+                userField2 = row["Field2"]
+                userField3 = row["Field3"]
 
-            # TODO flag error if not nullable fields are null
-            if assetId and assetName and assetStatus and assetCategory_id:
+                # TODO flag error if not nullable fields are null
+                if assetId and assetName and assetStatus and assetCategory_id:
 
-                # check if categoryId is in the given categories
-                if assetCategory_id and assetCategory_id.isdigit() and int(assetCategory_id) in CATEGORIES:
-                    category_shortname = CATEGORIES[int(assetCategory_id)]["shortname"]
-                
-                    # generate an asset id if it does not exists
-                    assetId = generate_assetid(category_shortname, my_sess) if not assetId else assetId
+                    # check if categoryId is in the given categories
+                    if assetCategory_id and assetCategory_id.isdigit() and int(assetCategory_id) in CATEGORIES:
+                        category_shortname = CATEGORIES[int(assetCategory_id)]["shortname"]
+                    
+                        # generate an asset id if it does not exists
+                        assetId = generate_assetid(category_shortname, my_sess) if not assetId else assetId
 
-                    # check existence
-                    if (existence := assetid_and_category_exists(assetId, assetCategory_id)) == "YES":
-                            # check the validity of the assetId
-                            if (validity := assetid_is_valid(assetId, category_shortname)) == "YES":
-                                # check the uniqueness of assetId
-                                if (uniqueness := assetid_is_unique(assetId, my_sess, Asset)) == "YES":
-                                    # add the asset to database
-                                    insert_asset(
-                                        my_sess,
-                                        Asset,
-                                        assetId=assetId,
-                                        assetName=assetName,
-                                        assetDescription=assetDescription,
-                                        assetLocation=assetLocation,
-                                        assetTags=assetTags,
-                                        assetStatus=assetStatus,
-                                        assetMetadata=assetMetadata,
-                                        assetCategory_id=assetCategory_id,
-                                        _created=datetime.now(),
-                                        _updated=datetime.now(),
-                                        userField1=userField1,
-                                        userField2=userField2,
-                                        userField3=userField3,
-                                    )
+                        # check existence
+                        if (existence := assetid_and_category_exists(assetId, assetCategory_id)) == "YES":
+                                # check the validity of the assetId
+                                if (validity := assetid_is_valid(assetId, category_shortname)) == "YES":
+                                    # check the uniqueness of assetId
+                                    if (uniqueness := assetid_is_unique(assetId, my_sess, Asset)) == "YES":
+                                        # add the asset to database
+                                        insert_asset(
+                                            my_sess,
+                                            Asset,
+                                            assetId=assetId,
+                                            assetName=assetName,
+                                            assetDescription=assetDescription,
+                                            assetLocation=assetLocation,
+                                            assetTags=assetTags,
+                                            assetStatus=assetStatus,
+                                            assetMetadata=assetMetadata,
+                                            assetCategory_id=assetCategory_id,
+                                            _created=datetime.now(),
+                                            _updated=datetime.now(),
+                                            userField1=userField1,
+                                            userField2=userField2,
+                                            userField3=userField3,
+                                        )
+                                    else:
+                                        row['Comments'] = uniqueness
+                                        csv_writer.writerow(row)
                                 else:
-                                    row['Comments '] = uniqueness
+                                    row['Comments'] = validity
                                     csv_writer.writerow(row)
-                            else:
-                                row['Comments '] = validity
-                                csv_writer.writerow(row)
+                        else:
+                            row['Comments'] = existence
+                            csv_writer.writerow(row)
+
                     else:
-                        row['Comments '] = existence
+                        row['Comments'] = 'Failed: Category Id not in category mapping'
                         csv_writer.writerow(row)
 
-                else:
-                    row['Comments '] = 'Failed: Category Id not in category mapping'
+                # Error messages if one of the required fields are not available
+                elif not assetId:
+                    row['Comments'] = 'Failed: The Field "assetId" is required'
+                    csv_writer.writerow(row)
+                elif not assetName:
+                    row['Comments'] = 'Failed: The Field "assetName" is required'
+                    csv_writer.writerow(row)
+                elif not assetStatus:
+                    row['Comments'] = 'Failed: The Field "assetStatus" is required'
+                    csv_writer.writerow(row)
+                elif not assetCategory_id:
+                    row['Comments'] = 'Failed: The Field "assetCategory_id" is required'
                     csv_writer.writerow(row)
 
-            # Error messages if one of the required fields are not available
-            elif not assetId:
-                row['Comments '] = 'Failed: The Field "assetId" is required'
-                csv_writer.writerow(row)
-            elif not assetName:
-                row['Comments '] = 'Failed: The Field "assetName" is required'
-                csv_writer.writerow(row)
-            elif not assetStatus:
-                row['Comments '] = 'Failed: The Field "assetStatus" is required'
-                csv_writer.writerow(row)
-            elif not assetCategory_id:
-                row['Comments '] = 'Failed: The Field "assetCategory_id" is required'
-                csv_writer.writerow(row)
+
+
+start = time.perf_counter()
+main()
+end = time.perf_counter()
+
+print(f'It took {end - start} seconds to execute')
