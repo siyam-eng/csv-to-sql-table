@@ -1,10 +1,1 @@
 Name,Asset ID,Description,Location,Tags,Status,Category,Metadata,Field1,Field2,Field3,Comments 
-LG TV,TE87654321,living room tv,"Bengaluru,India","TV,LG",ACTIVE,1,DOP:10/11/2010,"30,000",LG,,Failed: Given assetId already exists
-CISCO SWITCH,SW32145698,,,"CISCO,SWITCH",INACTIVE,2,NetworkSwitch,"1,00,000",CISCO,,Failed: Given assetId already exists
-SONY TV,TE65987452,OLED,"Seoul,Korea","SONY,55""",ACTIVE,1,Warranty 5 years,"1,00,000",SONY,,Failed: Given assetId already exists
-ROLEX,ROLEX,ROLEX,ROLEX,ROLEX,ROLEX,ROLEX,ROLEX,ROLEX,ROLEX,ROLEX,Failed: Category Id not in category mapping
-LENOVO ,LM89561467,"12"" screen","Bengaluru,India","Lenovo,laptop",ACTIVE,4,on site warranty,"50,000",Lenovo,,Failed: Asset id does not start with category short name
-,WA41236587,whirlpool washing machine,"NY,USA",10W motor,INACTIVE,1,warranty on motor,,,,"Failed: The Field ""assetName"" is required"
-Panasonic TV,TE23894512,LCD TV,"Tokyo,Japan","42""",INACTIVE,,DOP:05/06/2015,"42,000",,,"Failed: The Field ""assetCategory_id"" is required"
-LAMP 2,LM64389741,Lamp with 2W bulb,"Bengaluru,India","Lamp,2",ACTIVE,8,Lamp 2,"1,000",,,Failed: Category Id not in category mapping
-TOSHIBA TV,,"TV 65""","Tokyo,Japan","65""",INACTIVE,,,"55,000",,,"Failed: The Field ""assetId"" is required"

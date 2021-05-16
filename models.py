@@ -72,7 +72,7 @@ class AssetCategory(Base):
 
 
 # Create the table(s)
-# Base.metadata.create_all(engine)
+Base.metadata.create_all(engine)
 
 
 # Take the column values and create a new object (row in the table)
