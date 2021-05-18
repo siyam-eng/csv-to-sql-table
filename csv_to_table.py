@@ -3,15 +3,13 @@
 import csv
 import random
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from credentials import username, password
 from convertCsv import fieldPropertyObj, assetCategory
 from datetime import datetime
 from models import Asset
 import time
-import pandas as pd
-import threading
 
 
 username = username
@@ -40,9 +38,7 @@ def assetid_is_valid(assetid, category_shortname):
         if assetid.lower().startswith(category_shortname.lower()):
             if assetid[2:].isdigit():
                 return "YES"
-            return (
-                "Asset id does not contain 8 digits after category short name"
-            )
+            return "Asset id does not contain 8 digits after category short name"
         return "Asset id does not start with category short name"
     return "Asset id does not have 10 characters"
 
@@ -68,7 +64,7 @@ def generate_assetid(category_shortname, db_session, Model):
 # Validation function
 def validate(row, field_properties, asset_categories, db_session, Model, **kwargs):
     asset = {}
-    asset['Error'] = []
+    asset["Error"] = []
     field_value = None
     category_shortname = None
     category_id = None
@@ -101,9 +97,9 @@ def validate(row, field_properties, asset_categories, db_session, Model, **kwarg
                     # enum validation fails
                     else:
                         asset[dbFieldName] = field_value
-                        asset[
-                            "Error"
-                        ].append(f"This field should have any of these values:- {enum}")
+                        asset["Error"].append(
+                            f"This field should have any of these values:- {enum}"
+                        )
 
                 # validate select field
                 if fieldType == "SELECT":
@@ -115,7 +111,9 @@ def validate(row, field_properties, asset_categories, db_session, Model, **kwarg
                         # mapping not present
                         except KeyError as key:
                             asset[dbFieldName] = field_value
-                            asset["Error"].append(f"The mapping for {key} -> {foreignTable} is not provided")
+                            asset["Error"].append(
+                                f"The mapping for {key} -> {foreignTable} is not provided"
+                            )
 
                     # if foreignTable is assetCategories validate assetCategory
                     else:
@@ -128,41 +126,50 @@ def validate(row, field_properties, asset_categories, db_session, Model, **kwarg
                                 asset[dbFieldName] = category_id
                             except KeyError as key:
                                 asset[dbFieldName] = category_id
-                                asset[
-                                    "Error"
-                                ].append(f"KeyError in validating assetCategory: {key}")
+                                asset["Error"].append(
+                                    f"KeyError in validating assetCategory: {key}"
+                                )
                         # mapping not provided for csv given category
                         except KeyError:
                             asset[dbFieldName] = category_id
-                            asset[
-                                "Error"
-                            ].append(f"Mapping for {field_value} is not provided")
-            
+                            asset["Error"].append(
+                                f"Mapping for {field_value} is not provided"
+                            )
+
                 # Validate assetId
-                if dbFieldName == 'assetId':
+                if dbFieldName == "assetId":
                     # check if category_shortname exists
                     if category_shortname:
                         assetId = field_value
                         # check if assetId exists
                         if assetId:
                             # check the validity of the given assetId
-                            if (validity := assetid_is_valid(assetId, category_shortname)) == 'YES':
+                            if (
+                                validity := assetid_is_valid(
+                                    assetId, category_shortname
+                                )
+                            ) == "YES":
                                 # check uniqueness of assetId
                                 if assetid_is_unique(assetId, db_session, Model):
                                     asset[dbFieldName] = assetId
                                 # flag error if assetId is not unique
                                 else:
                                     asset[dbFieldName] = assetId
-                                    asset['Error'].append(f"assetId <{assetId}> is not unique")
+                                    asset["Error"].append(
+                                        f"assetId <{assetId}> is not unique"
+                                    )
                             # flag error if asset id is not valid
                             else:
                                 asset[dbFieldName] = assetId
-                                asset['Error'].append(f'assetId <{assetId}> is not valid: {validity}') 
+                                asset["Error"].append(
+                                    f"assetId <{assetId}> is not valid: {validity}"
+                                )
                         # generate new assetId if it is not present
                         else:
-                            assetId = generate_assetid(category_shortname, db_session, Model)
+                            assetId = generate_assetid(
+                                category_shortname, db_session, Model
+                            )
                             asset[dbFieldName] = assetId
-
 
             # required field not present
             else:
@@ -174,7 +181,10 @@ def validate(row, field_properties, asset_categories, db_session, Model, **kwarg
     return asset
     # print("error", asset) if asset.get("Error") else print(asset)
 
-def validate_and_store(rows, field_properties, asset_categories, db_session, Model, **kwargs):
+
+def validate_and_store(
+    rows, field_properties, asset_categories, db_session, Model, **kwargs
+):
     global valid_assets, invalid_assets, validated_assetIds
     for row in rows:
         asset = validate(
@@ -183,60 +193,73 @@ def validate_and_store(rows, field_properties, asset_categories, db_session, Mod
             asset_categories=asset_categories,
             db_session=db_session,
             Model=Model,
-            **kwargs
+            **kwargs,
         )
 
         # save valid and invalid assets in different lists
-        if asset['Error']:
-            INVALID_ASSETS.append(asset) 
+        if asset["Error"]:
+            INVALID_ASSETS.append(asset)
         else:
-            del asset['Error']
-            asset['_created'] = datetime.now()
-            asset['_updated'] = datetime.now()
+            del asset["Error"]
+            asset["_created"] = datetime.now()
+            asset["_updated"] = datetime.now()
             VALID_ASSETS.append(asset)
-            VALIDATED_ASSETIDS.add(asset['assetId'])
+            VALIDATED_ASSETIDS.add(asset["assetId"])
 
 
 def write_errors(field_properties):
-    with open('error.csv', 'w') as f:
-        fieldnames = [field['fieldName'] for field in field_properties]
-        fieldnames.append('Error')
+    with open("error.csv", "w") as f:
+        fieldnames = [field["fieldName"] for field in field_properties]
+        fieldnames.append("Error")
         csv_writer = csv.DictWriter(f, fieldnames)
         csv_writer.writeheader()
 
-        header_mapping = {field['fieldColumnName']: field['fieldName'] for field in field_properties}
-        header_mapping['Error'] = 'Error'
-        
+        header_mapping = {
+            field["fieldColumnName"]: field["fieldName"] for field in field_properties
+        }
+        header_mapping["Error"] = "Error"
+
         for row in INVALID_ASSETS:
             new_row = {header_mapping[key]: value for key, value in row.items()}
             csv_writer.writerow(new_row)
 
 
-# TODO DIVIDING THE DATA INTO 10 PARTS TO IMPLEMENT THREADING
-def convertToSQL(csv_file_path, field_properties, asset_categories, db_session, Model, **kwargs):
-    with open(csv_file_path, 'r') as f:
-        csv_reader = list(csv.DictReader(f))
-        # divide and validate
-        for i in range(10):
-            data_segment = csv_reader[i * 1000 : (i + 1) * 1000]
-            validate_and_store(data_segment, field_properties, asset_categories, db_session, Model, **kwargs)
-    # write the errors to 'errors.csv' file
-    write_errors(field_properties)
-    # save bulk data to sql from list
-    engine.execute(Asset.__table__.insert(),VALID_ASSETS) if VALID_ASSETS else 0
+# Combine all functions required to get the expected output
 
+
+def convertToSQL(
+    csv_file_path, field_properties, asset_categories, db_session, Model, **kwargs
+):
+    try:
+        with open(csv_file_path, "r") as f:
+            csv_reader = csv.DictReader(f)
+            validate_and_store(
+                csv_reader,
+                field_properties,
+                asset_categories,
+                db_session,
+                Model,
+                **kwargs,
+            )
+        # write the errors to 'errors.csv' file
+        write_errors(field_properties)
+        # save bulk data to sql from list
+        engine.execute(Asset.__table__.insert(), VALID_ASSETS) if VALID_ASSETS else 0
+
+        return "SUCCESS: convertToSQL function ran without any exceptions"
+    except Exception as exception:
+        return str(exception)
 
 
 start = time.perf_counter()
 convertToSQL(
-    csv_file_path='asset.csv',
+    csv_file_path="asset.csv",
     field_properties=fieldPropertyObj,
     asset_categories=assetCategory,
     db_session=my_sess,
     Model=Asset,
-    enum=['ACTIVE', 'INACTIVE'],
-    laptop={'': 'Mapped -> empty'}
-    
+    enum=["ACTIVE", "INACTIVE"],
+    laptop={"": "Mapped -> empty"},
 )
 end = time.perf_counter()
 
