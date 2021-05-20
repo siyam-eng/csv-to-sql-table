@@ -6,77 +6,21 @@ def convertToCsv(file, fieldProperty, assetCategory, **kwargs):
 
 
 fieldPropertyObj = [
+
     {
-        "id": 1,
-        "fieldName": "custom field 1",
+        "id": 6,
+        "fieldName": "Asset ID",
         "fieldStatus": "SHOW",
-        "fieldMandatory": 0,
-        "fieldColumnName": "userField1",
+        "fieldMandatory": 1,
+        "fieldColumnName": "assetId",
         "fieldEnabled": 1,
         "fieldOrder": None,
         "foreignTable": None,
         "fieldType": "INPUT",
-        "fieldEditable": 1,
-        "_etag": "",
-        "_updated": "Thu, 13 May 2021 18:33:20 GMT",
-        "_created": "Thu, 06 May 2021 18:48:51 GMT",
-        "_links": {
-            "self": {"title": "Asset_field_statu", "href": "asset_field_status/1"}
-        },
-    },
-    {
-        "id": 8,
-        "fieldName": "Description",
-        "fieldStatus": "SHOW",
-        "fieldMandatory": 1,
-        "fieldColumnName": "assetDescription",
-        "fieldEnabled": 1,
-        "fieldOrder": None,
-        "foreignTable": None,
-        "fieldType": "TEXT",
         "fieldEditable": 0,
         "_etag": "",
-        "_updated": "Thu, 06 May 2021 19:50:03 GMT",
-        "_created": "Thu, 06 May 2021 18:48:51 GMT",
-        "_links": {
-            "self": {"title": "Asset_field_statu", "href": "asset_field_status/8"}
-        },
-    },
-    {
-        "id": 11,
-        "fieldName": "Status",
-        "fieldStatus": "SHOW",
-        "fieldMandatory": 1,
-        "fieldColumnName": "assetStatus",
-        "fieldEnabled": 1,
-        "fieldOrder": None,
-        "foreignTable": "enum",
-        "fieldType": "ENUM",
-        "fieldEditable": 0,
-        "_etag": "",
-        "_updated": "Thu, 06 May 2021 19:50:03 GMT",
-        "_created": "Thu, 06 May 2021 18:48:51 GMT",
-        "_links": {
-            "self": {"title": "Asset_field_statu", "href": "asset_field_status/11"}
-        },
-    },
-    {
-        "id": 12,
-        "fieldName": "Creation Date",
-        "fieldStatus": "SHOW",
-        "fieldMandatory": 0,
-        "fieldColumnName": "_created",
-        "fieldEnabled": 1,
-        "fieldOrder": None,
-        "foreignTable": None,
-        "fieldType": "DATE",
-        "fieldEditable": 0,
-        "_etag": "",
-        "_updated": "Thu, 06 May 2021 19:50:03 GMT",
-        "_created": "Thu, 06 May 2021 19:11:00 GMT",
-        "_links": {
-            "self": {"title": "Asset_field_statu", "href": "asset_field_status/12"}
-        },
+        "_updated": datetime(2021, 5, 6, 19, 50, 3),
+        "_created": datetime(2021, 5, 6, 18, 48, 51),
     },
     {
         "id": 15,
@@ -90,50 +34,11 @@ fieldPropertyObj = [
         "fieldType": "SELECT",
         "fieldEditable": 0,
         "_etag": "",
-        "_updated": "Thu, 13 May 2021 18:20:28 GMT",
-        "_created": "Thu, 06 May 2021 18:48:51 GMT",
-        "_links": {
-            "self": {"title": "Asset_field_statu", "href": "asset_field_status/15"}
-        },
+        "_updated": datetime(2021, 5, 19, 17, 40, 6),
+        "_created": datetime(2021, 5, 6, 18, 48, 51),
     },
     {
-        "id": 15,
-        "fieldName": "User field 1",
-        "fieldStatus": "SHOW",
-        "fieldMandatory": 0,
-        "fieldColumnName": "userField1",
-        "fieldEnabled": 1,
-        "fieldOrder": None,
-        "foreignTable": "laptop",
-        "fieldType": "SELECT",
-        "fieldEditable": 0,
-        "_etag": "",
-        "_updated": "Thu, 13 May 2021 18:20:28 GMT",
-        "_created": "Thu, 06 May 2021 18:48:51 GMT",
-        "_links": {
-            "self": {"title": "Asset_field_statu", "href": "asset_field_status/15"}
-        },
-    },
-    {
-        "id": 16,
-        "fieldName": "Asset ID",
-        "fieldStatus": "SHOW",
-        "fieldMandatory": 0,
-        "fieldColumnName": "assetId",
-        "fieldEnabled": 1,
-        "fieldOrder": None,
-        "foreignTable": None,
-        "fieldType": "TEXT",
-        "fieldEditable": 0,
-        "_etag": "",
-        "_updated": "Thu, 13 May 2021 18:20:28 GMT",
-        "_created": "Thu, 06 May 2021 18:48:51 GMT",
-        "_links": {
-            "self": {"title": "", "href": ""}
-        },
-    },
-    {
-        "id": 17,
+        "id": 7,
         "fieldName": "Name",
         "fieldStatus": "SHOW",
         "fieldMandatory": 1,
@@ -141,14 +46,87 @@ fieldPropertyObj = [
         "fieldEnabled": 1,
         "fieldOrder": None,
         "foreignTable": None,
+        "fieldType": "INPUT",
+        "fieldEditable": 0,
+        "_etag": "",
+        "_updated": datetime(2021, 5, 6, 19, 50, 3),
+        "_created": datetime(2021, 5, 6, 18, 48, 51),
+    },
+    {
+        "id": 8,
+        "fieldName": "Description",
+        "fieldStatus": "SHOW",
+        "fieldMandatory": 0,
+        "fieldColumnName": "assetDescription",
+        "fieldEnabled": 1,
+        "fieldOrder": None,
+        "foreignTable": None,
         "fieldType": "TEXT",
         "fieldEditable": 0,
         "_etag": "",
-        "_updated": "Thu, 13 May 2021 18:20:28 GMT",
-        "_created": "Thu, 06 May 2021 18:48:51 GMT",
-        "_links": {
-            "self": {"title": "", "href": ""}
-        },
+        "_updated": datetime(2021, 5, 20, 10, 29, 34),
+        "_created": datetime(2021, 5, 6, 18, 48, 51),
+    },
+    {
+        "id": 9,
+        "fieldName": "Location",
+        "fieldStatus": "SHOW",
+        "fieldMandatory": 0,
+        "fieldColumnName": "assetLocation",
+        "fieldEnabled": 1,
+        "fieldOrder": None,
+        "foreignTable": None,
+        "fieldType": "INPUT",
+        "fieldEditable": 0,
+        "_etag": "",
+        "_updated": datetime(2021, 5, 20, 10, 29, 37),
+        "_created": datetime(2021, 5, 6, 18, 48, 51),
+    },
+    {
+        "id": 10,
+        "fieldName": "Tags",
+        "fieldStatus": "SHOW",
+        "fieldMandatory": 0,
+        "fieldColumnName": "assetTags",
+        "fieldEnabled": 1,
+        "fieldOrder": None,
+        "foreignTable": None,
+        "fieldType": "INPUT",
+        "fieldEditable": 0,
+        "_etag": "",
+        "_updated": datetime(2021, 5, 20, 10, 29, 39),
+        "_created": datetime(2021, 5, 6, 18, 48, 51),
+    },
+    {
+        "id": 11,
+        "fieldName": "Status",
+        "fieldStatus": "SHOW",
+        "fieldMandatory": 1,
+        "fieldColumnName": "assetStatus",
+        "fieldEnabled": 1,
+        "fieldOrder": None,
+        "foreignTable": "enum",
+        "fieldType": "ENUM",
+        "fieldEditable": 0,
+        "_etag": "",
+        "_updated": datetime(2021, 5, 6, 19, 50, 3),
+        "_created": datetime(2021, 5, 6, 18, 48, 51),
+    },
+
+    {
+        "id": 16,
+        "fieldName": "Metadata",
+        "fieldStatus": "SHOW",
+        "fieldMandatory": 0,
+        "fieldColumnName": "assetMetadata",
+        "fieldEnabled": 1,
+        "fieldOrder": None,
+        "foreignTable": None,
+        "fieldType": "INPUT",
+        "fieldEditable": 0,
+        "_etag": "",
+        "_updated": datetime(2021, 5, 20, 10, 29, 56),
+        "_created": datetime(2021, 5, 6, 18, 48, 51),
     },
 ]
 # assetID = {'key1':'value2'}
@@ -160,6 +138,7 @@ assetCategory = {
     "LAMP": {"id": 5, "shortName": "LA"},
     "WASHING MACHINE": {"id": 6, "shortName": "WA"},
     "WATCH": {"id": 2, "shortName": "WA"},
+    'Room': {'id': 9, 'shortName': 'RO'}
 }
 
 exampleSelectField1 = {
@@ -174,12 +153,12 @@ statusEnum = ["ACTIVE", "INACTIVE"]
 
 row = {
     "custom field 1": "hello world",
-    'User field 1': "test",
+    "User field 1": "test",
     "Description": "This is the description of laptop",
     "Status": "ACTIVE",
     "Category": "LAPTOP",
     "Creation Date": datetime.now(),
-    "Asset ID": 'LA82097729'
+    "Asset ID": "LA82097729",
 }
 
 

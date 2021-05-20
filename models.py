@@ -93,87 +93,16 @@ def insert_categories():
         
         my_sess,
         AssetCategory,
-        assetCategoryName="TELEVISION",
-        shortName="TE",
+        assetCategoryName="ROOM",
+        shortName="RO",
         assetCategoryLogo="Logo",
         editable=1,
         _created=datetime.now(),
         _updated=datetime.now(),
-        _etag="Etag for switch",
-    )
-    insert_object(
-        my_sess,
-        AssetCategory,
-        assetCategoryName="SWITCH",
-        shortName="SW",
-        assetCategoryLogo="Logo",
-        editable=1,
-        _created=datetime.now(),
-        _updated=datetime.now(),
-        _etag="Etag for switch",
+        _etag="Etag",
     )
 
-    insert_object(
-        my_sess,
-        AssetCategory,
-        assetCategoryName="BOX",
-        shortName="BO",
-        assetCategoryLogo="Logo",
-        editable=1,
-        _created=datetime.now(),
-        _updated=datetime.now(),
-        _etag="Etag for switch",
-    )
-    insert_object(
-        my_sess,
-        AssetCategory,
-        assetCategoryName="LAPTOP",
-        shortName="LA",
-        assetCategoryLogo="Logo",
-        editable=1,
-        _created=datetime.now(),
-        _updated=datetime.now(),
-        _etag="Etag for switch",
-    )
-
-    insert_object(
-        my_sess,
-        AssetCategory,
-        assetCategoryName="Lamp",
-        shortName="LM",
-        assetCategoryLogo="Logo",
-        editable=1,
-        _created=datetime.now(),
-        _updated=datetime.now(),
-        _etag="Etag for switch",
-    )
-
-    insert_object(
-        my_sess,
-        AssetCategory,
-        assetCategoryName="WASHING MACHINE",
-        shortName="WA",
-        assetCategoryLogo="Logo",
-        editable=1,
-        _created=datetime.now(),
-        _updated=datetime.now(),
-        _etag="Etag for switch",
-    )
-
-    insert_object(
-        my_sess,
-        AssetCategory,
-        assetCategoryName="WATCH",
-        shortName="WT",
-        assetCategoryLogo="Logo",
-        editable=1,
-        _created=datetime.now(),
-        _updated=datetime.now(),
-        _etag="Etag for switch",
-    )
-
-
-
+# insert_categories()
 
 
 # # Name,Asset ID,Description,Location,Tags,Status,Category,Metadata,Field1,Field2,Field3,Comments

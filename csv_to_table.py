@@ -67,10 +67,34 @@ def validate(row : dict, field_properties: dict, asset_categories: dict, db_sess
     """Apply all validation rules to the given row"""
     asset = {}
     asset["Error"] = []
-    field_value = None
+
+    category_csv_column_name = [field['fieldName'] for field in field_properties if field['fieldColumnName'] == 'assetCategory_id']
+    input_category_name = row[category_csv_column_name[0]]
+
+    # initialize variables related to category
     category_shortname = None
     category_id = None
 
+    # get the category data from the given category_mapping
+    try:
+        category = asset_categories[input_category_name]
+        # get the `category_shortname` and `category_id` from category data
+        try:
+            category_shortname = category['shortName']
+            category_id = category['id']
+            asset['assetCategory_id'] = category_id
+        # `category_shortname` or 'category_id` not provided
+        except KeyError as key:
+            asset['assetCategory_id'] = input_category_name
+            asset['Error'].append(f"Category `shortname` or `id` not provided in `asset_categories` for {input_category_name}")
+    # category mapping not provided for this specific category
+    except KeyError:
+        asset['assetCategory_id'] = input_category_name
+        asset["Error"].append(
+            f"Mapping for {input_category_name} is not provided"
+        )
+
+    # loop over the list of field properties and validate them 
     for field in field_properties:
         # field properties
         csvFieldName = field["fieldName"]
@@ -83,12 +107,18 @@ def validate(row : dict, field_properties: dict, asset_categories: dict, db_sess
         try:
             field_value = row[csvFieldName]
         except KeyError as key:
-            asset[dbFieldName] = field_value
+            asset[dbFieldName] = None
             asset["Error"].append(f"Column {key} not given is csv file")
 
-        # check if required value is null
-        if (bool(fieldMandatory) and field_value) or not bool(fieldMandatory):
-            asset[dbFieldName] = field_value
+        # check if required value is null 
+        if (bool(fieldMandatory) and field_value) or (not bool(fieldMandatory)):
+
+            # ignore `assetCategory_id` as it is already filled up
+            if dbFieldName == 'assetCategory_id':
+                continue
+
+            # set the `key`: `value` for asset
+            asset[dbFieldName] = field_value 
 
             # validate enum field
             if fieldType == "ENUM":
@@ -105,7 +135,7 @@ def validate(row : dict, field_properties: dict, asset_categories: dict, db_sess
             # validate select field
             if fieldType == "SELECT":
                 # rules are same except for assetCategories
-                if foreignTable != "assetCategories":
+                if dbFieldName != "assetCategory_id":
                     mapping = kwargs[foreignTable]
                     try:
                         asset[dbFieldName] = mapping[field_value]
@@ -114,27 +144,6 @@ def validate(row : dict, field_properties: dict, asset_categories: dict, db_sess
                         asset[dbFieldName] = field_value
                         asset["Error"].append(
                             f"The mapping for {key} -> {foreignTable} is not provided"
-                        )
-
-                # if foreignTable is assetCategories validate assetCategory
-                else:
-                    # check if mapping is provided for the csv given category
-                    try:
-                        category = asset_categories[field_value]
-                        try:
-                            category_shortname = category["shortName"]
-                            category_id = category["id"]
-                            asset[dbFieldName] = category_id
-                        except KeyError as key:
-                            asset[dbFieldName] = category_id
-                            asset["Error"].append(
-                                f"KeyError in validating assetCategory: {key}"
-                            )
-                    # mapping not provided for csv given category
-                    except KeyError:
-                        asset[dbFieldName] = category_id
-                        asset["Error"].append(
-                            f"Mapping for {field_value} is not provided"
                         )
 
             # Validate assetId
@@ -173,7 +182,6 @@ def validate(row : dict, field_properties: dict, asset_categories: dict, db_sess
         else:
             asset[dbFieldName] = field_value
             asset["Error"].append(f"Required field '{csvFieldName}' not present")
-
 
     return asset
 
@@ -222,6 +230,15 @@ def write_errors(field_properties, error_file_path):
             csv_writer.writerow(new_row)
 
 
+# reset the global variables
+def cleanup():
+    """Reset the global variables"""
+    global VALID_ASSETS, INVALID_ASSETS, VALIDATED_ASSETIDS
+    VALID_ASSETS = []
+    INVALID_ASSETS = []
+    VALIDATED_ASSETIDS = set()
+
+
 # Combine all functions required to get the expected output
 def convert_to_table(
     csv_file_path, error_file_path, field_properties, asset_categories, db_session, Model, **kwargs
@@ -253,11 +270,15 @@ def convert_to_table(
             'status': 'Failed',
             'Exception Details': str(exception),
         }
+    finally:
+        # reset the global variables
+        cleanup()
+
 
 if __name__ == '__main__':
     start = time.perf_counter()
     result = convert_to_table(
-        csv_file_path="asset.csv",
+        csv_file_path="assetImport.csv",
         error_file_path='error.csv',
         field_properties=fieldPropertyObj,
         asset_categories=assetCategory,
