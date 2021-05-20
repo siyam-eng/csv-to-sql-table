@@ -4,13 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-greenlet = "==1.1.0"
-PyMySQL = "==1.0.2"
-SQLAlchemy = "==1.4.15"
+greenlet = "*"
+PyMySQL = "*"
+SQLAlchemy = "*"
 pandas = "*"
 cryptography = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.9"
+python_version = "3.6"

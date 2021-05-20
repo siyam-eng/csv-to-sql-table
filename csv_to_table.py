@@ -145,11 +145,8 @@ def validate(row : dict, field_properties: dict, asset_categories: dict, db_sess
                     # check if assetId exists
                     if assetId:
                         # check the validity of the given assetId
-                        if (
-                            validity := assetid_is_valid(
-                                assetId, category_shortname
-                            )
-                        ) == "YES":
+                        validity = assetid_is_valid(assetId, category_shortname)
+                        if validity == "YES":
                             # check uniqueness of assetId
                             if assetid_is_unique(assetId, db_session, Model):
                                 asset[dbFieldName] = assetId
@@ -246,9 +243,16 @@ def convert_to_table(
         # save bulk data to sql from list
         engine.execute(Asset.__table__.insert(), VALID_ASSETS) if VALID_ASSETS else 0
 
-        return "SUCCESS: convertToSQL function ran without any exceptions"
+        return {
+            'status': 'Success',
+            'valid_assets': len(VALID_ASSETS),
+            'error_file_path': error_file_path
+        }
     except Exception as exception:
-        return str(exception)
+        return {
+            'status': 'Failed',
+            'Exception Details': str(exception),
+        }
 
 if __name__ == '__main__':
     start = time.perf_counter()
@@ -262,6 +266,7 @@ if __name__ == '__main__':
         enum=["ACTIVE", "INACTIVE"],
         laptop={"": "Mapped -> empty"},
     )
+    print(result)
     end = time.perf_counter()
 
     print(f"It took {end - start} seconds to execute")

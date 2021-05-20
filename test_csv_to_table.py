@@ -144,9 +144,9 @@ def insert_assets(db_session, Asset):
 # TODO(s)
 # 1. set up a on memory sqlite3 database ✔
 # 2. fill that database with dummy data ✔
-# 3. load a asset.csv file 
-# 4. write to a error.csv file
-# 5. Delete those files after tests are done
+# 3. load a asset.csv file ✔
+# 4. write to a error.csv file ✔
+# 5. Delete those files after tests are done ✔
 
 
 class TestCsvToTable(unittest.TestCase):

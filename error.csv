@@ -1,12 +1,7 @@
 custom field 1,Description,Status,Creation Date,Category,User field 1,Asset ID,Name,Error
-,living room tv,ACTIVE,LG,1,Mapped -> empty,TE87654321,LG TV,['assetId <TE87654321> is not unique']
 ,,INACTIVE,CISCO,2,Mapped -> empty,SW32145698,CISCO SWITCH,"[""Required field 'Description' not present""]"
-,Box,ACTIVE,,3,Mapped -> empty,BO12456897,BOX,['assetId <BO12456897> is not unique']
-,"Laptop with 15"" display",INACTIVE,DELL,4,Mapped -> empty,LA45689732,DELL LAPTOP,['assetId <LA45689732> is not unique']
 ,,ACTIVE,,5,Mapped -> empty,LM89756865,LAMP 1,"[""Required field 'Description' not present"", 'assetId <LM89756865> is not valid: Asset id does not start with category short name']"
-,Front Load,ACTIVE,,6,Mapped -> empty,WA78653294,BOSCH WASHING MACHINE,['assetId <WA78653294> is not unique']
 ,Waterproof,INACTIVE,CASIO,2,Mapped -> empty,WT89563274,CASIO WATCH,['assetId <WT89563274> is not valid: Asset id does not start with category short name']
-,OLED,ACTIVE,SONY,1,Mapped -> empty,TE65987452,SONY TV,['assetId <TE65987452> is not unique']
 ,ROLEX,ROLEX,ROLEX,,ROLEX,ROLEX,ROLEX,"[""This field should have any of these values:- ['ACTIVE', 'INACTIVE']"", 'Mapping for ROLEX is not provided', ""The mapping for 'ROLEX' -> laptop is not provided""]"
 ,"12"" screen",ACTIVE,Lenovo,4,Mapped -> empty,LM89561467,LENOVO ,['assetId <LM89561467> is not valid: Asset id does not start with category short name']
 ,whirlpool washing machine,INACTIVE,,1,Mapped -> empty,WA41236587,,"['assetId <WA41236587> is not valid: Asset id does not start with category short name', ""Required field 'Name' not present""]"
@@ -9986,7 +9981,6 @@ custom field 1,Description,Status,Creation Date,Category,User field 1,Asset ID,N
 ,Lamp with 2W bulb,ACTIVE,,,Mapped -> empty,LM64389741,LAMP 2,['Mapping for COMPUTER is not provided']
 ,"TV 65""",INACTIVE,,,Mapped -> empty,,TOSHIBA TV,"[""Required field 'Category' not present""]"
 ,,INACTIVE,CISCO,2,Mapped -> empty,SW32145698,CISCO SWITCH,"[""Required field 'Description' not present""]"
-,Box,ACTIVE,,3,Mapped -> empty,BO12457797,BOX,['assetId <BO12457797> is not unique']
 ,"Laptop with 15"" display",INACTIVE,DELL,4,Mapped -> empty,LA45689732,DELL LAPTOP,['assetId <LA45689732> is not unique']
 ,,ACTIVE,,5,Mapped -> empty,LM89666865,LAMP 1,"[""Required field 'Description' not present"", 'assetId <LM89666865> is not valid: Asset id does not start with category short name']"
 ,Front Load,ACTIVE,,6,Mapped -> empty,WA78653294,BOSCH WASHING MACHINE,['assetId <WA78653294> is not unique']
