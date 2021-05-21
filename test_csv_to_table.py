@@ -424,8 +424,8 @@ class TestCsvToTable(unittest.TestCase):
         db_session=TestCsvToTable.my_sess,
         Model=Asset,
         enum=["ACTIVE", "INACTIVE"],
-        laptop={"": "Mapped -> empty"}),
-    "SUCCESS: convertToSQL function ran without any exceptions")
+        laptop={"": "Mapped -> empty"})['status'],
+    "Success")
 
 
 

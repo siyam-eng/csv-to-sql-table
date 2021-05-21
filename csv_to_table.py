@@ -10,6 +10,7 @@ from convertCsv import fieldPropertyObj, assetCategory
 from datetime import datetime
 from models import Asset
 import time
+import string
 
 
 username = username
@@ -185,6 +186,13 @@ def validate(row : dict, field_properties: dict, asset_categories: dict, db_sess
 
     return asset
 
+# generate a dummy etag
+def dummy_etag(value : dict):
+    """Generate a dummy etag using python's string module"""
+    combination = string.ascii_uppercase + string.ascii_lowercase + string.digits
+    etag = "".join([random.choice(combination) for _ in range(25)])
+    return etag
+
 
 def validate_and_store(
     rows, field_properties, asset_categories, db_session, Model, **kwargs
@@ -208,6 +216,7 @@ def validate_and_store(
             del asset["Error"]
             asset["_created"] = datetime.now()
             asset["_updated"] = datetime.now()
+            asset["_etag"] = dummy_etag(asset)
             VALID_ASSETS.append(asset)
             VALIDATED_ASSETIDS.add(asset["assetId"])
 
@@ -230,14 +239,14 @@ def write_errors(field_properties, error_file_path):
             csv_writer.writerow(new_row)
 
 
-# reset the global variables
-def cleanup():
-    """Reset the global variables"""
+# reset the global variables and close db_session
+def cleanup(db_session):
+    """Reset the global variables and close the db_session"""
     global VALID_ASSETS, INVALID_ASSETS, VALIDATED_ASSETIDS
     VALID_ASSETS = []
     INVALID_ASSETS = []
     VALIDATED_ASSETIDS = set()
-
+    db_session.close()
 
 # Combine all functions required to get the expected output
 def convert_to_table(
@@ -271,8 +280,8 @@ def convert_to_table(
             'Exception Details': str(exception),
         }
     finally:
-        # reset the global variables
-        cleanup()
+        # reset the global variables and close the session
+        cleanup(my_sess)
 
 
 if __name__ == '__main__':
