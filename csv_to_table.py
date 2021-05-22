@@ -104,6 +104,9 @@ def validate(row : dict, field_properties: dict, asset_categories: dict, db_sess
         fieldType = field["fieldType"]
         foreignTable = field["foreignTable"]
 
+        # make the assetId field not mandetory for generating a new assetId
+        if dbFieldName == 'assetId':
+            fieldMandatory = 0
         # csv field value
         try:
             field_value = row[csvFieldName]

@@ -1,5 +1,5 @@
 Asset ID,Category,Description,Location,Metadata,Name,Status,Tags
-RO37321747,Room,test 1 description,update location 2 with op log 6,,test 1,ACTIVE,
+,Room,test 1 description,update location 2 with op log 6,,test 1,ACTIVE,
 12345,Room,test 1 description,update location 2 with op log 6,,test 1,ACTIVE,
 RA37321747,Ram,test 3 description,update location 2,,test 3,ACTIVE,
 RO57884414,Room,test 4 description,,,test 4,ACTIVE,
