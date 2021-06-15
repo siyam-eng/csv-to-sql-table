@@ -90,7 +90,7 @@ Base.metadata.create_all(engine)
 # # asset = my_sess.query(Asset).filter_by(assetId='LA12345678').first()
 # def insert_categories():
 #     insert_object(
-        
+    
 #         my_sess,
 #         AssetCategory,
 #         assetCategoryName="TELEVISION",
@@ -173,7 +173,7 @@ Base.metadata.create_all(engine)
 #     )
 
 
-
+# insert_categories()
 
 
 # # Name,Asset ID,Description,Location,Tags,Status,Category,Metadata,Field1,Field2,Field3,Comments

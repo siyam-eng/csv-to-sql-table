@@ -1,0 +1,3 @@
+Asset ID,Category,Description,Location,Metadata,Name,Status,Tags,Custom field 1,Custom field 2,userField3,userField4,userField5,Comment
+RO76879877,Room,"User defined field 2 optional check with empty value, User defined field 1 mandatory check",Location input,Metadata input,Test 1-1,ACTIVE,"Tag1,tag2",User field 1 entered ,,User field 3,User field 4,User field 5,Test case required status and userfield1 field value is empty
+RO76879888,Room,"User defined field 2 optional check with some value, User defined field 1 mandatory check",Location input,Metadata input,Test 1-1,ACTIVE,"Tag1,tag2",User field 1 entered ,User field 2 optional,User field 3,User field 4,User field 5,Test case required status and userfield1 field value is empty

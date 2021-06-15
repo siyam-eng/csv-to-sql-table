@@ -1,0 +1,6 @@
+_created,assetId,assetStatus,assetDescription,assetCategory,userField1
+LG,TE87654321,ACTIVE,living room tv,1,mapped -> empty field
+,BO12456897,ACTIVE,Box,3,mapped -> empty field
+DELL,LA45689732,INACTIVE,"Laptop with 15"" display",4,mapped -> empty field
+,WA78653294,ACTIVE,Front Load,6,mapped -> empty field
+SONY,TE65987452,ACTIVE,OLED,1,mapped -> empty field
