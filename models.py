@@ -75,103 +75,32 @@ class AssetCategory(Base):
 Base.metadata.create_all(engine)
 
 
-# # Take the column values and create a new object (row in the table)
-# def insert_object(session, Model, **kwargs):
-#     # creating a movie object -> row in the table
-#     new_obj = Model(**kwargs)
-#     # adding the row
-#     session.add(new_obj)
-#     # commiting the row
-#     session.commit()
+# Take the column values and create a new object (row in the table)
+def insert_object(session, Model, **kwargs):
+    # creating a movie object -> row in the table
+    new_obj = Model(**kwargs)
+    # adding the row
+    session.add(new_obj)
+    # commiting the row
+    session.commit()
 
-#     return new_obj
+    return new_obj
 
 
-# # asset = my_sess.query(Asset).filter_by(assetId='LA12345678').first()
-# def insert_categories():
-#     insert_object(
-    
-#         my_sess,
-#         AssetCategory,
-#         assetCategoryName="TELEVISION",
-#         shortName="TE",
-#         assetCategoryLogo="Logo",
-#         editable=1,
-#         _created=datetime.now(),
-#         _updated=datetime.now(),
-#         _etag="Etag for switch",
-#     )
-#     insert_object(
-#         my_sess,
-#         AssetCategory,
-#         assetCategoryName="SWITCH",
-#         shortName="SW",
-#         assetCategoryLogo="Logo",
-#         editable=1,
-#         _created=datetime.now(),
-#         _updated=datetime.now(),
-#         _etag="Etag for switch",
-#     )
-
-#     insert_object(
-#         my_sess,
-#         AssetCategory,
-#         assetCategoryName="BOX",
-#         shortName="BO",
-#         assetCategoryLogo="Logo",
-#         editable=1,
-#         _created=datetime.now(),
-#         _updated=datetime.now(),
-#         _etag="Etag for switch",
-#     )
-#     insert_object(
-#         my_sess,
-#         AssetCategory,
-#         assetCategoryName="LAPTOP",
-#         shortName="LA",
-#         assetCategoryLogo="Logo",
-#         editable=1,
-#         _created=datetime.now(),
-#         _updated=datetime.now(),
-#         _etag="Etag for switch",
-#     )
-
-#     insert_object(
-#         my_sess,
-#         AssetCategory,
-#         assetCategoryName="Lamp",
-#         shortName="LM",
-#         assetCategoryLogo="Logo",
-#         editable=1,
-#         _created=datetime.now(),
-#         _updated=datetime.now(),
-#         _etag="Etag for switch",
-#     )
-
-#     insert_object(
-#         my_sess,
-#         AssetCategory,
-#         assetCategoryName="WASHING MACHINE",
-#         shortName="WA",
-#         assetCategoryLogo="Logo",
-#         editable=1,
-#         _created=datetime.now(),
-#         _updated=datetime.now(),
-#         _etag="Etag for switch",
-#     )
-
-#     insert_object(
-#         my_sess,
-#         AssetCategory,
-#         assetCategoryName="WATCH",
-#         shortName="WT",
-#         assetCategoryLogo="Logo",
-#         editable=1,
-#         _created=datetime.now(),
-#         _updated=datetime.now(),
-#         _etag="Etag for switch",
-#     )
-
+# asset = my_sess.query(Asset).filter_by(assetId='LA12345678').first()
+def insert_categories():
+    insert_object(
+        
+        my_sess,
+        AssetCategory,
+        assetCategoryName="ROOM",
+        shortName="RO",
+        assetCategoryLogo="Logo",
+        editable=1,
+        _created=datetime.now(),
+        _updated=datetime.now(),
+        _etag="Etag",
+    )
 
 # insert_categories()
 
