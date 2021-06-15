@@ -6,7 +6,28 @@ def convertToCsv(file, fieldProperty, assetCategory, **kwargs):
 
 
 fieldPropertyObj = [
-
+    {
+        "id": 1,
+        "fieldName": "Custom field 1",
+        "fieldStatus": "SHOW",
+        "fieldMandatory": 1,
+        "fieldColumnName": "userField1",
+        "fieldEnabled": 1,
+        "fieldOrder": None,
+        "foreignTable": None,
+        "fieldType": "INPUT",
+    },
+    {
+        "id": 2,
+        "fieldName": "Custom field 2",
+        "fieldStatus": "SHOW",
+        "fieldMandatory": 0,
+        "fieldColumnName": "userField2",
+        "fieldEnabled": 1,
+        "fieldOrder": None,
+        "foreignTable": None,
+        "fieldType": "INPUT",
+    },
     {
         "id": 6,
         "fieldName": "Asset ID",
@@ -17,25 +38,6 @@ fieldPropertyObj = [
         "fieldOrder": None,
         "foreignTable": None,
         "fieldType": "INPUT",
-        "fieldEditable": 0,
-        "_etag": "",
-        "_updated": datetime(2021, 5, 6, 19, 50, 3),
-        "_created": datetime(2021, 5, 6, 18, 48, 51),
-    },
-    {
-        "id": 15,
-        "fieldName": "Category",
-        "fieldStatus": "SHOW",
-        "fieldMandatory": 1,
-        "fieldColumnName": "assetCategory_id",
-        "fieldEnabled": 1,
-        "fieldOrder": None,
-        "foreignTable": "assetCategories",
-        "fieldType": "SELECT",
-        "fieldEditable": 0,
-        "_etag": "",
-        "_updated": datetime(2021, 5, 19, 17, 40, 6),
-        "_created": datetime(2021, 5, 6, 18, 48, 51),
     },
     {
         "id": 7,
@@ -47,10 +49,6 @@ fieldPropertyObj = [
         "fieldOrder": None,
         "foreignTable": None,
         "fieldType": "INPUT",
-        "fieldEditable": 0,
-        "_etag": "",
-        "_updated": datetime(2021, 5, 6, 19, 50, 3),
-        "_created": datetime(2021, 5, 6, 18, 48, 51),
     },
     {
         "id": 8,
@@ -62,10 +60,6 @@ fieldPropertyObj = [
         "fieldOrder": None,
         "foreignTable": None,
         "fieldType": "TEXT",
-        "fieldEditable": 0,
-        "_etag": "",
-        "_updated": datetime(2021, 5, 20, 10, 29, 34),
-        "_created": datetime(2021, 5, 6, 18, 48, 51),
     },
     {
         "id": 9,
@@ -77,10 +71,6 @@ fieldPropertyObj = [
         "fieldOrder": None,
         "foreignTable": None,
         "fieldType": "INPUT",
-        "fieldEditable": 0,
-        "_etag": "",
-        "_updated": datetime(2021, 5, 20, 10, 29, 37),
-        "_created": datetime(2021, 5, 6, 18, 48, 51),
     },
     {
         "id": 10,
@@ -92,10 +82,6 @@ fieldPropertyObj = [
         "fieldOrder": None,
         "foreignTable": None,
         "fieldType": "INPUT",
-        "fieldEditable": 0,
-        "_etag": "",
-        "_updated": datetime(2021, 5, 20, 10, 29, 39),
-        "_created": datetime(2021, 5, 6, 18, 48, 51),
     },
     {
         "id": 11,
@@ -107,12 +93,18 @@ fieldPropertyObj = [
         "fieldOrder": None,
         "foreignTable": "enum",
         "fieldType": "ENUM",
-        "fieldEditable": 0,
-        "_etag": "",
-        "_updated": datetime(2021, 5, 6, 19, 50, 3),
-        "_created": datetime(2021, 5, 6, 18, 48, 51),
     },
-
+    {
+        "id": 15,
+        "fieldName": "Category",
+        "fieldStatus": "SHOW",
+        "fieldMandatory": 1,
+        "fieldColumnName": "assetCategory_id",
+        "fieldEnabled": 1,
+        "fieldOrder": None,
+        "foreignTable": "assetCategory",
+        "fieldType": "SELECT",
+    },
     {
         "id": 16,
         "fieldName": "Metadata",
@@ -123,12 +115,9 @@ fieldPropertyObj = [
         "fieldOrder": None,
         "foreignTable": None,
         "fieldType": "INPUT",
-        "fieldEditable": 0,
-        "_etag": "",
-        "_updated": datetime(2021, 5, 20, 10, 29, 56),
-        "_created": datetime(2021, 5, 6, 18, 48, 51),
     },
 ]
+
 # assetID = {'key1':'value2'}
 assetCategory = {
     "TELEVISION": {"id": 1, "shortName": "TE"},
@@ -138,7 +127,7 @@ assetCategory = {
     "LAMP": {"id": 5, "shortName": "LA"},
     "WASHING MACHINE": {"id": 6, "shortName": "WA"},
     "WATCH": {"id": 2, "shortName": "WA"},
-    'Room': {'id': 9, 'shortName': 'RO'}
+    "Room": {"id": 9, "shortName": "RO"},
 }
 
 exampleSelectField1 = {

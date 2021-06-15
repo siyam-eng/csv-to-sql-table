@@ -1,0 +1,9 @@
+,Category,Description,Location,Metadata,Name,Status,Tags,userField1,userField2,userField3,userField4,userField5,Comment
+RO19627706,Room,Test case existing asset ID,Location input,Metadata input,Test 1,ACTIVE,"Tag1,tag2",User field 1,User field 2,User field 3,User field 4,User field 5,Existing asset id
+,Room,Test case no asset ID with valid category mentioned,Location input,Metadata input,Test 2,ACTIVE,"Tag1,tag2",User field 1,User field 2,User field 3,User field 4,User field 5,No Asset ID
+INVALID_ID,Room,Test case invalid ID,Location input,Metadata input,Test 3,ACTIVE,"Tag1,tag2",User field 1,User field 2,User field 3,User field 4,User field 5,Invalid Asset ID
+RA19627706,Room,Test case category shortname not match,Location input,Metadata input,Test 4,ACTIVE,"Tag1,tag2",User field 1,User field 2,User field 3,User field 4,User field 5,Test case category shortname not match
+1234567890,Room,Test case category shortname not match having 10 numeric,Location input,Metadata input,Test 5,ACTIVE,"Tag1,tag2",User field 1,User field 2,User field 3,User field 4,User field 5,Invalid Asset ID
+RO123456789,Room,Test case category shortname match having 11 numeric which is not in table,Location input,Metadata input,Test 6,ACTIVE,"Tag1,tag2",User field 1,User field 2,User field 3,User field 4,User field 5,Test case category shortname match having 11 numeric which is not in table
+,INVALID,Test case no asset ID with invalid category mentioned,Location input,Metadata input,Test 7,ACTIVE,"Tag1,tag2",User field 1,User field 2,User field 3,User field 4,User field 5,Test case no asset ID with invalid category mentioned
+,,Test case no asset ID with no category mentioned,Location input,Metadata input,Test 8,ACTIVE,"Tag1,tag2",User field 1,User field 2,User field 3,User field 4,User field 5,Test case no asset ID with no category mentioned

@@ -64,12 +64,23 @@ def generate_assetid(category_shortname, db_session, Model):
 
 
 # Validation function
-def validate(row : dict, field_properties: dict, asset_categories: dict, db_session, Model, **kwargs) -> dict:
+def validate(
+    row: dict,
+    field_properties: dict,
+    asset_categories: dict,
+    db_session,
+    Model,
+    **kwargs,
+) -> dict:
     """Apply all validation rules to the given row"""
     asset = {}
     asset["Error"] = []
 
-    category_csv_column_name = [field['fieldName'] for field in field_properties if field['fieldColumnName'] == 'assetCategory_id']
+    category_csv_column_name = [
+        field["fieldName"]
+        for field in field_properties
+        if field["fieldColumnName"] == "assetCategory_id"
+    ]
     input_category_name = row[category_csv_column_name[0]]
 
     # initialize variables related to category
@@ -81,21 +92,21 @@ def validate(row : dict, field_properties: dict, asset_categories: dict, db_sess
         category = asset_categories[input_category_name]
         # get the `category_shortname` and `category_id` from category data
         try:
-            category_shortname = category['shortName']
-            category_id = category['id']
-            asset['assetCategory_id'] = category_id
+            category_shortname = category["shortName"]
+            category_id = category["id"]
+            asset["assetCategory_id"] = category_id
         # `category_shortname` or 'category_id` not provided
         except KeyError as key:
-            asset['assetCategory_id'] = input_category_name
-            asset['Error'].append(f"Category `shortname` or `id` not provided in `asset_categories` for {input_category_name}")
+            asset["assetCategory_id"] = input_category_name
+            asset["Error"].append(
+                f"Category `shortname` or `id` not provided in `asset_categories` for {input_category_name}"
+            )
     # category mapping not provided for this specific category
     except KeyError:
-        asset['assetCategory_id'] = input_category_name
-        asset["Error"].append(
-            f"Mapping for {input_category_name} is not provided"
-        )
+        asset["assetCategory_id"] = input_category_name
+        asset["Error"].append(f"Mapping for {input_category_name} is not provided")
 
-    # loop over the list of field properties and validate them 
+    # loop over the list of field properties and validate them
     for field in field_properties:
         # field properties
         csvFieldName = field["fieldName"]
@@ -105,24 +116,26 @@ def validate(row : dict, field_properties: dict, asset_categories: dict, db_sess
         foreignTable = field["foreignTable"]
 
         # make the assetId field not mandetory for generating a new assetId
-        if dbFieldName == 'assetId':
+        if dbFieldName == "assetId":
             fieldMandatory = 0
+
         # csv field value
         try:
             field_value = row[csvFieldName]
         except KeyError as key:
+            field_value = None
             asset[dbFieldName] = None
             asset["Error"].append(f"Column {key} not given is csv file")
 
-        # check if required value is null 
+        # check if required value is null
         if (bool(fieldMandatory) and field_value) or (not bool(fieldMandatory)):
 
             # ignore `assetCategory_id` as it is already filled up
-            if dbFieldName == 'assetCategory_id':
+            if dbFieldName == "assetCategory_id":
                 continue
-
+            print(field_value)
             # set the `key`: `value` for asset
-            asset[dbFieldName] = field_value 
+            asset[dbFieldName] = field_value
 
             # validate enum field
             if fieldType == "ENUM":
@@ -189,8 +202,9 @@ def validate(row : dict, field_properties: dict, asset_categories: dict, db_sess
 
     return asset
 
+
 # generate a dummy etag
-def dummy_etag(value : dict):
+def dummy_etag(value: dict):
     """Generate a dummy etag using python's string module"""
     combination = string.ascii_uppercase + string.ascii_lowercase + string.digits
     etag = "".join([random.choice(combination) for _ in range(25)])
@@ -251,9 +265,16 @@ def cleanup(db_session):
     VALIDATED_ASSETIDS = set()
     db_session.close()
 
+
 # Combine all functions required to get the expected output
 def convert_to_table(
-    csv_file_path, error_file_path, field_properties, asset_categories, db_session, Model, **kwargs
+    csv_file_path,
+    error_file_path,
+    field_properties,
+    asset_categories,
+    db_session,
+    Model,
+    **kwargs,
 ):
     """Run all functions to convert the given csv file into an sql table"""
     try:
@@ -271,27 +292,27 @@ def convert_to_table(
         write_errors(field_properties, error_file_path)
         # save bulk data to sql from list
         engine.execute(Asset.__table__.insert(), VALID_ASSETS) if VALID_ASSETS else 0
-
+        print(VALID_ASSETS)
         return {
-            'status': 'Success',
-            'valid_assets': len(VALID_ASSETS),
-            'error_file_path': error_file_path
+            "status": "Success",
+            "valid_assets": len(VALID_ASSETS),
+            "error_file_path": error_file_path,
         }
     except Exception as exception:
         return {
-            'status': 'Failed',
-            'Exception Details': str(exception),
+            "status": "Failed",
+            "Exception Details": str(exception),
         }
     finally:
         # reset the global variables and close the session
         cleanup(my_sess)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     start = time.perf_counter()
     result = convert_to_table(
-        csv_file_path="assetImport.csv",
-        error_file_path='error.csv',
+        csv_file_path="test3.csv",
+        error_file_path="error.csv",
         field_properties=fieldPropertyObj,
         asset_categories=assetCategory,
         db_session=my_sess,
